@@ -9,6 +9,9 @@ app.all('/', (req, res) => {
     const {body, method} = req;
     if('responseCode' in body){
         const message = body.errorMessage || `Response code is ${body.responseCode}`;
+        if('encode' in body && body.encode){
+            res.status(body.responseCode).send(JSON.stringify({method, message}));
+        }
         res.status(body.responseCode).json({method, message});
         return;
     }
